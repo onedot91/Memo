@@ -8,8 +8,17 @@ const SIZES = {
   xlarge: 'size-xlarge text-7xl',
 };
 
+const LEGACY_WELCOME_MESSAGE = '🐻 환영합니다!\n\n여기에 메모를 작성하세요.\n\n마늘 가방을 멘 곰돌이가 응원합니다! 🧄🍃';
+const BEAR_IMAGE_SRC = '/bear.png';
+
 export default function App() {
-  const [content, setContent] = useState(() => localStorage.getItem('classroom-memo') || '🐻 환영합니다!\n\n여기에 메모를 작성하세요.\n\n마늘 가방을 멘 곰돌이가 응원합니다! 🧄🍃');
+  const [content, setContent] = useState(() => {
+    const saved = localStorage.getItem('classroom-memo');
+    if (!saved || saved === LEGACY_WELCOME_MESSAGE) {
+      return '';
+    }
+    return saved;
+  });
   const [fontSize, setFontSize] = useState<keyof typeof SIZES>(() => (localStorage.getItem('classroom-fontsize') as keyof typeof SIZES) || 'large');
   const [isReadOnly, setIsReadOnly] = useState(false);
   const [showDate, setShowDate] = useState(() => localStorage.getItem('classroom-showdate') !== 'false');
@@ -128,7 +137,7 @@ export default function App() {
         <div className="flex flex-wrap items-center gap-3 p-4 bg-bg-toolbar border-b border-border-ui text-base font-normal shrink-0 shadow-sm">
           
           <div className="flex items-center gap-2 mr-2 font-bold text-accent text-xl tracking-tight">
-            <span className="text-2xl">🐻</span>
+            <img src={BEAR_IMAGE_SRC} alt="곰 아이콘" className="w-12 h-12 object-contain" />
             <span className="hidden sm:inline">메모장</span>
           </div>
 
@@ -174,9 +183,12 @@ export default function App() {
         {/* Editor */}
         <div className="flex-1 flex flex-col p-8 md:p-12 overflow-hidden relative">
           {/* Watermark */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15rem] opacity-5 pointer-events-none select-none grayscale">
-            🐻
-          </div>
+          <img
+            src={BEAR_IMAGE_SRC}
+            alt=""
+            aria-hidden="true"
+            className="absolute top-1/2 left-1/2 w-[18rem] h-[18rem] -translate-x-1/2 -translate-y-1/2 opacity-5 pointer-events-none select-none grayscale"
+          />
           <div
             ref={editorRef}
             contentEditable={!isReadOnly}
