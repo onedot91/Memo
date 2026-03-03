@@ -1,3 +1,5 @@
+const BEAR_IMAGE_SRC = 'bear.png';
+
 export const getStandaloneHTML = (initialContent: string) => `<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -96,12 +98,14 @@ export const getStandaloneHTML = (initialContent: string) => `<!DOCTYPE html>
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 15rem;
+    width: 300px;
+    height: 300px;
     opacity: 0.05;
     pointer-events: none;
     user-select: none;
     filter: grayscale(100%);
     z-index: 1;
+    object-fit: contain;
   }
 
   .editor-content {
@@ -190,7 +194,7 @@ export const getStandaloneHTML = (initialContent: string) => `<!DOCTYPE html>
 
   <div id="toolbar">
     <div style="font-weight: bold; color: var(--accent-color); font-size: 1.2rem; margin-right: 10px;">
-      <span style="font-size: 1.5rem;">🐻</span> 메모장
+      <img src="${BEAR_IMAGE_SRC}" alt="곰 아이콘" style="width: 2.1rem; height: 2.1rem; vertical-align: middle; margin-right: 6px;" /> 메모장
     </div>
     <select id="size-select">
       <option value="size-normal">보통 글자</option>
@@ -210,7 +214,7 @@ export const getStandaloneHTML = (initialContent: string) => `<!DOCTYPE html>
   <div id="date-display"></div>
 
   <div id="main-content">
-    <div class="watermark">🐻</div>
+    <img class="watermark" src="${BEAR_IMAGE_SRC}" alt="" aria-hidden="true" />
     <div id="editor-container">
       <div id="editor" class="editor-content" contenteditable="true" data-placeholder="여기에 내용을 입력하세요. 텍스트를 드래그하고 상단의 색상 버튼을 눌러 강조할 수 있습니다." spellcheck="false"></div>
     </div>
